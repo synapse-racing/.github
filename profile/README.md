@@ -4,13 +4,14 @@
 
   # Synapse Racing
 
-  **Plataforma web de carreras 3D con conducción autónoma (NEAT) y multijugador en tiempo real**
+  **3D Autonomous Neural Driving, Evolutionary Simulation & Real-Time Multiplayer Web Platform**  
+  *An academic software engineering project bridging neuroevolutionary AI, rigid-body physics, and authoritative network gaming.*
 
   <br/>
 
-  [![Proyecto Universitario](https://img.shields.io/badge/Proyecto-Universitario-475569?style=flat-square)](https://github.com/synapse-racing)
-  [![Estado](https://img.shields.io/badge/Estado-En%20Desarrollo-2563eb?style=flat-square)](https://github.com/synapse-racing)
-  [![Licencia](https://img.shields.io/badge/Licencia-MIT-0f172a?style=flat-square)](https://github.com/synapse-racing)
+  [![Project Type](https://img.shields.io/badge/Project-Academic%20%2F%20University-475569?style=flat-square)](https://github.com/synapse-racing)
+  [![Build & Test](https://img.shields.io/badge/Status-Fully%20Implemented%20%26%20Verified-2563eb?style=flat-square)](https://github.com/synapse-racing)
+  [![License](https://img.shields.io/badge/License-MIT-0f172a?style=flat-square)](https://github.com/synapse-racing)
 
   <br/>
 
@@ -21,8 +22,8 @@
     <img src="https://img.shields.io/badge/Rapier_Physics-262626?style=flat-square" alt="Rapier Physics" />
     <img src="https://img.shields.io/badge/NestJS-E0234E?style=flat-square&logo=nestjs&logoColor=white" alt="NestJS" />
     <img src="https://img.shields.io/badge/Socket.IO-010101?style=flat-square&logo=socket.io&logoColor=white" alt="Socket.IO" />
-    <img src="https://img.shields.io/badge/PostgreSQL-336791?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" />
-    <img src="https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white" alt="Prisma" />
+    <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white" alt="MongoDB" />
+    <img src="https://img.shields.io/badge/Prisma_ORM-2D3748?style=flat-square&logo=prisma&logoColor=white" alt="Prisma" />
     <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker" />
   </p>
 
@@ -30,20 +31,47 @@
 
 ---
 
-## Sobre el Proyecto
+## Overview
 
-**Synapse Racing** es un proyecto desarrollado en el marco académico universitario para la materia de desarrollo de aplicaciones web. Como equipo decidimos plantear el trabajo práctico alrededor del desarrollo de un **videojuego de carreras en 3D** directamente ejecutable desde el navegador web, integrando simulación física, entrenamiento de agentes autónomos con algoritmos evolutivos y juego multijugador en red.
+**Synapse Racing** is a high-performance web platform designed to explore continuous autonomous vehicle control through evolutionary computing and real-time multiplayer synchronization. Developed as a university capstone project for advanced web application engineering, the system combines real-time 3D rigid-body dynamics, client-side neural evolution with **NEAT** (*NeuroEvolution of Augmenting Topologies*), and an authoritative backend running on **NestJS** and **MongoDB**.
 
-El juego propone dos modalidades principales:
+The platform is designed around two core game modes:
 
-1. **Modo Entrenamiento (Inteligencia Artificial):** Los autos aprenden a completar el circuito de forma autónoma mediante el algoritmo **NEAT** (*NeuroEvolution of Augmenting Topologies*). La simulación corre en el navegador y permite ver la evolución de las redes neuronales a través de las distintas generaciones.
-2. **Modo Multijugador:** Creación de salas privadas para competir en tiempo real contra otros jugadores con sincronización vía WebSockets.
+1. **Autonomous Training (NEAT AI):** Simulates a population of 24 autonomous agents in the browser learning to navigate complex technical race tracks. Evolutionary calculations run in background Web Workers, featuring real-time raycast visualization, multi-speed controls, and deterministic state restoration.
+2. **Authoritative Multiplayer Racing:** Private lobbies supporting up to 64 concurrent players. The server executes physics at 20 Hz, broadcasts state snapshots at 10 Hz via WebSockets, and clients smoothly interpolate remote vehicles using position and quaternion slerp algorithms.
 
 ---
 
-## ¿Cómo Funciona la IA en el Juego?
+## Core Capabilities
 
-Los vehículos autónomos no siguen una línea predefinida en el circuito, sino que toman decisiones en base a sensores virtuales:
+### 1. Neuroevolution & Autonomous Driving (NEAT)
+- **Topological Neural Evolution:** Dynamically evolves both connection weights and network architecture (adding nodes and synaptic connections) across generations without backpropagation.
+- **Genetic Speciation & Elitism:** Employs genomic distance thresholds and historical innovation markings to protect topological innovations in sub-species before global competition.
+- **Sensor Telemetry & 3D Visualizer:** Real-time distance measurement using 5 raycast sensors ($-60^\circ, -30^\circ, 0^\circ, +30^\circ, +60^\circ$) rendered directly in the 3D scene.
+- **Deterministic Replay & Persistence:** Generational checkpoints, population snapshots, PRNG states, and best-performing genomes persist atomically in MongoDB via Prisma.
+- **Simulation Speed Control:** Configurable simulation multipliers (1x, 2x, 4x, etc.) enabling rapid generational iteration without UI frame drops.
+
+### 2. High-Fidelity 3D Physics & Circuit Design
+- **Deterministic Rigid-Body Physics:** Vehicle kinematics, wheel friction, tire grip, and collision detection driven by **Rapier Physics** (`@react-three/rapier`) running at a fixed 60 Hz timestep.
+- **Procedural & Technical Circuits:** Multiple track topologies (`curved-loop-v1`, `technical-loop-v2`, `grand-prix-v3`) featuring scalable scenery, elevation bounds, banked corners, intermediate checkpoints, and lap-crossing detection.
+- **Decoupled Architecture:** High-frequency rendering and physics lifecycles operate outside React component reconciliation to ensure persistent 60 FPS performance.
+
+### 3. Server-Authoritative Real-Time Multiplayer
+- **Tick-Based Server Simulation:** NestJS hosts an in-memory game loop ticking at 20 Hz to validate inputs, compute vehicle positions, and eliminate client-side cheating.
+- **Bandwidth-Optimized Snapshots:** Broadcasts serialized race snapshots at 10 Hz via Socket.IO WebSockets.
+- **Client Interpolation:** The frontend buffers recent snapshots and interpolates positions and rotations (quaternion slerp) for jitter-free multi-car rendering.
+- **Scalable Lobbies:** Private rooms support configurable capacities from 2 up to 64 simultaneous racers, complete with ready states, track selection, and host race controls.
+
+### 4. Enterprise Security & Architecture
+- **In-Memory JWT Access Tokens:** Short-lived Bearer tokens for authenticated API interactions.
+- **Rotating HttpOnly Refresh Tokens:** Session tokens stored in secure `HttpOnly` cookies, with cryptographic hashes verified via **Argon2id** against MongoDB. Supports concurrent multi-device logins.
+- **Clean Modular Design:** Follows domain-driven boundaries across authentication, users, training runs, and multiplayer rooms.
+
+---
+
+## Autonomous Agent Specification
+
+Autonomous agents receive environmental telemetry through directional raycasts and vehicle kinetics, passing inputs to the evolved neural network to determine steering and propulsion:
 
 ```
                   [ -30° Raycast ]    [ 0° Raycast ]    [ +30° Raycast ]
@@ -51,125 +79,145 @@ Los vehículos autónomos no siguen una línea predefinida en el circuito, sino 
        [ -60° Raycast ] ---\                 |                 /--- [ +60° Raycast ]
                              \               |               /
                             ┌────────────────────────────────┐
-                            │        Auto Autónomo           │
+                            │    Autonomous Vehicle Agent    │
                             └────────────────┬───────────────┘
                                              │
                                              ▼
                             ┌────────────────────────────────┐
-                            │     Red Neuronal (NEAT)        │
-                            │ Topología y pesos evolutivos   │
+                            │    Evolving Neural Network     │
+                            │   Dynamic Topology & Weights   │
                             └────────────────┬───────────────┘
                                              │
                             ┌────────────────┴───────────────┐
                             ▼                                ▼
-                    Dirección [-1, 1]              Acelerador / Freno [-1, 1]
+                     Steering Angle                 Throttle / Brake
+                  $\delta \in [-1, 1]$            $\alpha \in [-1, 1]$
 ```
 
-- **Entradas:** 5 sensores de distancia por raycast ($-60^\circ, -30^\circ, 0^\circ, +30^\circ, +60^\circ$) y la velocidad longitudinal del vehículo.
-- **Salidas:** Dos valores continuos que controlan el ángulo de giro y la aceleración o frenado.
-- **Cálculo de Rendimiento (Fitness):** Cada generación evalúa a los autos sumando puntos por distancia recorrida y checkpoints completados, premiando la velocidad media y penalizando choques contra muros o quedarse inmóvil.
+### Sensor Input Vector
+- $d_0 \dots d_4$: 5 normalized proximity distances from raycast sensors orientated at $-60^\circ, -30^\circ, 0^\circ, +30^\circ, +60^\circ$.
+- $v_l$: Normalized longitudinal vehicle velocity.
+
+### Fitness Objective Function
+Generational selection and reproduction probability are governed by the following fitness formulation:
+
+$$\mathcal{F} = w_p \cdot d_{\text{track}} + w_c \cdot N_{\text{checkpoints}} + w_v \cdot \bar{v} - w_{\text{collision}} \cdot C - w_{\text{idle}} \cdot t_{\text{stationary}}$$
+
+Weights balance lap progression and sustained velocity while heavily penalizing perimeter barrier collisions or inactivity.
 
 ---
 
-## Arquitectura de la Aplicación
-
-La solución está construida desacoplando el cliente web interactivo del servidor de juego y persistencia:
+## System Architecture
 
 ```mermaid
 flowchart LR
-    subgraph Frontend["Frontend (Cliente Web)"]
+    subgraph Client["Client Tier (Web Platform)"]
         direction TB
-        UI["Interfaz Web<br/>React 19 / Zustand"]
-        Game["Juego y Físicas 3D<br/>Three.js / Rapier (60 FPS)"]
-        NEAT["Cálculo Evolutivo NEAT<br/>Web Workers"]
-        UI --- Game
-        Game --- NEAT
+        UI["UI & Telemetry HUD<br/>React 19 / Zustand"]
+        Engine["3D Simulation & Physics<br/>Three.js / Rapier (60 FPS)"]
+        Worker["NEAT Evolutionary Engine<br/>Dedicated Web Workers"]
+        UI --- Engine
+        Engine --- Worker
     end
 
-    subgraph Backend["Backend (NestJS)"]
+    subgraph Server["Server Tier (NestJS Core)"]
         direction TB
-        Auth["Autenticación y Sesiones<br/>JWT / Argon2id"]
-        Multiplayer["Salas y Multijugador<br/>Socket.IO WebSockets"]
-        Persistence["Lógica de Negocio<br/>Prisma ORM"]
+        Auth["Security & Sessions<br/>Argon2id / Rotating JWT"]
+        NetGate["Multiplayer Gateway<br/>Socket.IO (20 Hz Tick / 10 Hz Sync)"]
+        Services["Domain & Training Services<br/>Prisma Client"]
     end
 
-    subgraph Database["Base de Datos"]
-        DB[("PostgreSQL")]
+    subgraph Storage["Persistence Tier"]
+        DB[("MongoDB Replica Set<br/>BSON Documents & Indexes")]
     end
 
-    UI -->|API REST| Auth
-    Game <-->|WebSockets Tiempo Real| Multiplayer
-    Auth --> Persistence
-    Multiplayer --> Persistence
-    Persistence --> DB
+    UI -->|REST API HTTPS| Auth
+    Engine <-->|Duplex WebSockets| NetGate
+    Auth --> Services
+    NetGate --> Services
+    Services --> DB
 ```
 
 ---
 
-## Repositorios del Proyecto
+## Repository Ecosystem
 
-El código de la aplicación se encuentra organizado en los siguientes repositorios:
+The project codebase is partitioned into distinct modular repositories:
 
-| Repositorio | Descripción | Tecnologías |
+| Repository | Scope & Role | Primary Technologies |
 | :--- | :--- | :--- |
-| [**`synapse-frontend`**](https://github.com/synapse-racing/synapse-frontend) | Cliente del videojuego: renderizado 3D, física vehicular con Rapier, interfaz de usuario y ejecución del algoritmo NEAT. | React 19, Vite, Three.js, React Three Fiber, Rapier, Zustand, Socket.IO Client |
-| [**`synapse-backend`**](https://github.com/synapse-racing/synapse-backend) | Servidor: autenticación de usuarios, persistencia de genomas y servidor de WebSocket para carreras multijugador. | NestJS, PostgreSQL, Prisma ORM, Socket.IO, Argon2, Docker |
-| [**`.github`**](https://github.com/synapse-racing/.github) | Archivos de configuración general de la organización y documentación del perfil. | Markdown, GitHub Actions |
+| [**`synapse-frontend`**](https://github.com/synapse-racing/synapse-frontend) | Single-page application, 3D Canvas rendering, Rapier physics, NEAT genetic engine, and multiplayer client. | React 19, Vite, Three.js, React Three Fiber, Rapier, Zustand, Socket.IO Client |
+| [**`synapse-backend`**](https://github.com/synapse-racing/synapse-backend) | Authoritative REST API, WebSocket multiplayer room engine, session management, and persistence layer. | NestJS, MongoDB, Prisma ORM, Socket.IO, Argon2id, Docker |
+| [**`.github`**](https://github.com/synapse-racing/.github) | Organization profile, community standards, and global workflow configurations. | GitHub Actions, Markdown |
 
 ---
 
-## Tecnologías Utilizadas
+## Technology Stack
 
-- **Frontend & Gráficos:** React 19, Vite, Three.js, React Three Fiber, `@react-three/drei`, Tailwind CSS.
-- **Física del Juego:** Rapier (`@react-three/rapier`), Web Workers para cómputo de la IA en segundo plano sin congelar la pantalla.
-- **Inteligencia Artificial:** Algoritmo NEAT implementado en TypeScript, sensores por raycasting.
-- **Backend & Multijugador:** NestJS, Socket.IO (WebSockets), Passport, JWT, Argon2id, Swagger/OpenAPI.
-- **Base de Datos:** PostgreSQL con Prisma ORM.
-- **Entorno y DevOps:** Docker, Docker Compose, pnpm.
+| Domain | Technologies & Libraries |
+| :--- | :--- |
+| **Frontend & 3D Graphics** | React 19, Vite, Three.js, React Three Fiber, `@react-three/drei`, Tailwind CSS, TanStack Query |
+| **Physics Simulation** | Rapier Physics (`@react-three/rapier`), Web Workers, Deterministic Timesteps |
+| **Artificial Intelligence** | NEAT Algorithm (TypeScript implementation), Raycast Distance Sensors, Topological Mutation |
+| **Backend & Netcode** | NestJS, Socket.IO (WebSockets), Passport.js, JWT, Argon2id, Swagger/OpenAPI |
+| **Database & ORM** | MongoDB (Replica Set enabled), Prisma ORM |
+| **Testing & Quality** | Vitest, React Testing Library, Playwright (E2E), Jest, Supertest, `mongodb-memory-server` |
+| **DevOps & Deployment** | Docker, Docker Compose, Nginx (Reverse Proxy & SPA fallback), Pterodactyl Panel support |
 
 ---
 
-## Cómo Probar el Proyecto en Local
+## Local Development & Setup
 
-### Requisitos
-- Node.js 24 o superior
-- pnpm (`corepack enable`)
-- Docker Desktop
+### Prerequisites
+- **Node.js:** v24 LTS or higher
+- **Package Manager:** `pnpm` (`corepack enable`)
+- **Database:** MongoDB with replica set enabled (local Docker instance provided)
 
-### 1. Iniciar Base de Datos y Backend
+### 1. Start Database & Backend
 
 ```bash
+# Clone the repository
 git clone https://github.com/synapse-racing/synapse-backend.git
 cd synapse-backend
 
+# Configure environment and start local MongoDB container
 cp .env.example .env
-docker compose up -d
+docker compose up -d mongo
 
+# Install dependencies and sync Prisma schema
 pnpm install
 pnpm prisma:generate
-pnpm db:deploy
+pnpm db:push
+
+# Start the NestJS development server
 pnpm start:dev
 ```
 
-### 2. Iniciar el Frontend
+### 2. Start the Frontend
 
-En otra terminal:
+In a separate terminal window:
 
 ```bash
+# Clone the frontend repository
 git clone https://github.com/synapse-racing/synapse-frontend.git
 cd synapse-frontend
 
+# Configure environment and install dependencies
 cp .env.example .env
 pnpm install
-pnpm dev
+
+# Start Vite with local network exposure
+pnpm dev --host
 ```
 
-El juego estará accesible en:
-- **Juego Web:** `http://localhost:5173`
-- **Documentación API / Swagger:** `http://localhost:3000/api/docs`
+### Service Access Points
+- **Web Application:** `http://localhost:5173` (or via local LAN IP for cross-device testing)
+- **API & Swagger Documentation:** `http://localhost:3000/api/docs`
+- **System Health Checks:** `http://localhost:3000/api/health`
 
 ---
 
+
 <div align="center">
-  <sub>Proyecto desarrollado por estudiantes para la carrera universitaria de Ingeniería / Informática · <b>Synapse Racing</b></sub>
+  <sub>© Synapse Racing Organization. Released under the terms of the MIT License.</sub>
 </div>
