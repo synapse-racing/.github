@@ -94,7 +94,7 @@ flowchart LR
     end
 
     subgraph Database["Base de Datos"]
-        DB[("PostgreSQL")]
+        DB[("MongoDB")]
     end
 
     UI -->|API REST| Auth
@@ -110,66 +110,7 @@ flowchart LR
 
 El código de la aplicación se encuentra organizado en los siguientes repositorios:
 
-| Repositorio | Descripción | Tecnologías |
+| Repositorio | Descripción |
 | :--- | :--- | :--- |
-| [**`synapse-frontend`**](https://github.com/synapse-racing/synapse-frontend) | Cliente del videojuego: renderizado 3D, física vehicular con Rapier, interfaz de usuario y ejecución del algoritmo NEAT. | React 19, Vite, Three.js, React Three Fiber, Rapier, Zustand, Socket.IO Client |
-| [**`synapse-backend`**](https://github.com/synapse-racing/synapse-backend) | Servidor: autenticación de usuarios, persistencia de genomas y servidor de WebSocket para carreras multijugador. | NestJS, PostgreSQL, Prisma ORM, Socket.IO, Argon2, Docker |
-| [**`.github`**](https://github.com/synapse-racing/.github) | Archivos de configuración general de la organización y documentación del perfil. | Markdown, GitHub Actions |
-
----
-
-## Tecnologías Utilizadas
-
-- **Frontend & Gráficos:** React 19, Vite, Three.js, React Three Fiber, `@react-three/drei`, Tailwind CSS.
-- **Física del Juego:** Rapier (`@react-three/rapier`), Web Workers para cómputo de la IA en segundo plano sin congelar la pantalla.
-- **Inteligencia Artificial:** Algoritmo NEAT implementado en TypeScript, sensores por raycasting.
-- **Backend & Multijugador:** NestJS, Socket.IO (WebSockets), Passport, JWT, Argon2id, Swagger/OpenAPI.
-- **Base de Datos:** PostgreSQL con Prisma ORM.
-- **Entorno y DevOps:** Docker, Docker Compose, pnpm.
-
----
-
-## Cómo Probar el Proyecto en Local
-
-### Requisitos
-- Node.js 24 o superior
-- pnpm (`corepack enable`)
-- Docker Desktop
-
-### 1. Iniciar Base de Datos y Backend
-
-```bash
-git clone https://github.com/synapse-racing/synapse-backend.git
-cd synapse-backend
-
-cp .env.example .env
-docker compose up -d
-
-pnpm install
-pnpm prisma:generate
-pnpm db:deploy
-pnpm start:dev
-```
-
-### 2. Iniciar el Frontend
-
-En otra terminal:
-
-```bash
-git clone https://github.com/synapse-racing/synapse-frontend.git
-cd synapse-frontend
-
-cp .env.example .env
-pnpm install
-pnpm dev
-```
-
-El juego estará accesible en:
-- **Juego Web:** `http://localhost:5173`
-- **Documentación API / Swagger:** `http://localhost:3000/api/docs`
-
----
-
-<div align="center">
-  <sub>Proyecto desarrollado por estudiantes para la carrera universitaria de Ingeniería / Informática · <b>Synapse Racing</b></sub>
-</div>
+| [**`synapse-frontend`**](https://github.com/synapse-racing/synapse-frontend) | Cliente del videojuego |
+| [**`synapse-backend`**](https://github.com/synapse-racing/synapse-backend) | Servidor |
