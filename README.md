@@ -103,14 +103,3 @@ flowchart LR
     Multiplayer --> Persistence
     Persistence --> DB
 ```
-
----
-
-## Repositorios del Proyecto
-
-El código de la aplicación se encuentra organizado en los siguientes repositorios:
-
-| Repositorio | Descripción |
-| :--- | :--- | :--- |
-| [**`synapse-frontend`**](https://github.com/synapse-racing/synapse-frontend) | Cliente del videojuego |
-| [**`synapse-backend`**](https://github.com/synapse-racing/synapse-backend) | Servidor |
